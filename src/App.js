@@ -5,6 +5,10 @@ const { Panel } = Collapse;
 
 function App() {
 
+  // https://boiling-waters-15789.herokuapp.com/
+  
+  let apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:3000';
+
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState();
   const [questions, setQuestions] = useState([]);
@@ -14,7 +18,7 @@ function App() {
   const [inputAnswerText, setInputAnswerText] = useState('');
 
   const fetchCategories = async () => {
-    let res = await fetch(`http://localhost:3000/api/v1/categories`);
+    let res = await fetch(`${apiUrl}/api/v1/categories`);
     let data = await res.json();
     console.log(data);
     setCategories(data);
@@ -23,7 +27,7 @@ function App() {
   const fetchQuestions = async () => {
     console.log(selectedCategory);
     if(selectedCategory){
-      let res = await fetch(`http://localhost:3000/api/v1/categories/${selectedCategory}/questions`);
+      let res = await fetch(`${apiUrl}/api/v1/categories/${selectedCategory}/questions`);
       let data = await res.json();
       console.log(data);
       setQuestions(data);
@@ -34,7 +38,7 @@ function App() {
   const fetchAnswers = async () => {
     console.log(selectedQuestion);
     if(selectedQuestion){
-      let res = await fetch(`http://localhost:3000/api/v1/categories/${selectedCategory}/questions/${selectedQuestion}/answers`);
+      let res = await fetch(`${apiUrl}/api/v1/categories/${selectedCategory}/questions/${selectedQuestion}/answers`);
       let data = await res.json();
       console.log(data);
       setAnswers(data);
@@ -60,7 +64,7 @@ function App() {
       options.headers["Content-Type"] = "application/json;charset=utf-8";
       console.log(options);
       
-      const res = await fetch(`http://localhost:3000/api/v1/categories/${selectedCategory}/questions`, options);
+      const res = await fetch(`${apiUrl}/api/v1/categories/${selectedCategory}/questions`, options);
       let data = await res.json();
       console.log(data);
       fetchQuestions();
@@ -88,7 +92,7 @@ function App() {
       options.headers["Content-Type"] = "application/json;charset=utf-8";
       console.log(options);
 
-      const res = await fetch(`http://localhost:3000/api/v1/categories/${selectedCategory}/questions/${selectedQuestion}/answers`, options);
+      const res = await fetch(`${apiUrl}/api/v1/categories/${selectedCategory}/questions/${selectedQuestion}/answers`, options);
       let data = await res.json();
       console.log(data);
       fetchAnswers();
@@ -134,10 +138,10 @@ function App() {
           <ul>
             {categories.map((category, index) => {
               return <li key={index} className={category.id == selectedCategory ? 
-                "border p-4 cursor-pointer bg-gray-300" : "border p-4 cursor-pointer"} 
+                "rounded border my-2 p-4 cursor-pointer bg-blue-500 text-white font-bold" : "rounded border my-2 p-4 cursor-pointer"} 
                 onClick={() => {
-                setSelectedCategory(category.id);
-                setSelectedQuestion('');
+                  setSelectedCategory(category.id);
+                  setSelectedQuestion('');
                 }}>
                 {category.name}
               </li>
@@ -162,7 +166,7 @@ function App() {
             {questions.map((question, index) => {
               return <div>
                 <li key={index} className={question.id == selectedQuestion ? 
-                "border p-4 bg-gray-300" : "border p-4 cursor-pointer"} 
+                "border my-2 p-4 bg-gray-300 font-bold" : "border my-2 p-4 cursor-pointer"} 
                 onClick={() => {
                 setSelectedQuestion(question.id);
                 }}>
@@ -170,7 +174,7 @@ function App() {
                   {question.Answers.length > 0 && <span> - Number of Answers: {question.Answers.length}</span>}
                                                       
                   {answers.map((answer, id) => {
-                    return answer.questionId == question.id && <div key={id} className={"border p-4 mt-4 bg-white"}>
+                    return answer.questionId == question.id && <div key={id} className={"rounded border p-4 mt-4 bg-white font-normal"}>
                       {answer.answerText}
                     </div>
                   })}
@@ -179,7 +183,7 @@ function App() {
                <div className={"bg-gray-300 p-4 border"}>
                  <input value={inputAnswerText} onChange={(event) => {
                    setInputAnswerText(event.currentTarget.value);
-                   }} type="text" className={'border p-1 mr-5 w-3/4'}/>
+                   }} type="text" className={'rounded border p-2 mr-5 w-3/4'}/>
                   <button className={"col-span-full md:col-span-3 lg:col-span-2 bg-green-600 cursor-pointer rounded text-center text-white text-xl md:text-lg p-2"} 
                   onClick={createNewAnswer}>Add Answer</button>
                 </div>}
