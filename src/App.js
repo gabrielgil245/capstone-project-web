@@ -7,7 +7,7 @@ function App() {
 
   // https://boiling-waters-15789.herokuapp.com/
   
-  let apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:3000';
+  let apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:3000/';
 
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState();
@@ -18,7 +18,7 @@ function App() {
   const [inputAnswerText, setInputAnswerText] = useState('');
 
   const fetchCategories = async () => {
-    let res = await fetch(`${apiUrl}/api/v1/categories`);
+    let res = await fetch(`${apiUrl}api/v1/categories`);
     let data = await res.json();
     console.log(data);
     setCategories(data);
