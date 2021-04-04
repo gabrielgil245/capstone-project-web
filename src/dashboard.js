@@ -138,6 +138,19 @@ function Dashboard() {
     }
   }
 
+  const deleteSelectedQuestion = async (questionId) => {
+    console.log(selectedCategory);
+    console.log(questionId);
+    await fetch(`${apiUrl}/api/v1/categories/${selectedCategory}/questions/${questionId}?token=${token}&userId=${userId}`, 
+    {method: 'DELETE'});
+    fetchQuestions();
+    notification['success']({
+      message:'Deleted',
+      description:
+      `Your question was successfully deleted!`,
+    })
+  }
+
   const isLoggedIn = () => {
     if(localStorage.getItem('token')){
       setToken(localStorage.getItem('token'));
@@ -224,7 +237,7 @@ function Dashboard() {
               </div>
               <br/>            
               
-              {/* Responses & Answer Input Bar */}
+              {/* Responses & Answers */}
               {questions.map((question, index) => {
                 return <div>
                   <li key={index} className={question.id == selectedQuestion ? 
@@ -234,6 +247,13 @@ function Dashboard() {
                   }}>
                     {question.questionText}
                     {question.Answers.length > 0 && <span> - Number of Answers: {question.Answers.length}</span>}
+                    {userId == question.userId && <span>
+                      &nbsp; &nbsp; &nbsp; 
+                      <button className={"col-span-full md:col-span-3 lg:col-span-2 bg-red-600 cursor-pointer rounded text-center text-white text-xl md:text-lg p-2"} 
+                        onClick={() => {
+                          deleteSelectedQuestion(question.id);
+                        }}>Delete</button>
+                    </span>}
                                                         
                     {answers.map((answer, id) => {
                       return selectedQuestion == question.id && <div key={id} className={"rounded border p-4 mt-4 bg-white font-normal"}>
@@ -241,6 +261,7 @@ function Dashboard() {
                       </div>
                     })}
                 </li>
+                {/* Answer Input Bar */}
                 {selectedQuestion == question.id && 
                 <div className={"bg-gray-300 p-4 border"}>
                   <input value={inputAnswerText} onChange={(event) => {
