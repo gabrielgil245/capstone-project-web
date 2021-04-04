@@ -16,12 +16,21 @@ function Dashboard() {
   const [inputQuestionText, setInputQuestionText] = useState('');
   const [inputAnswerText, setInputAnswerText] = useState('');
   const [token, setToken] = useState();
+  const [userId, setUserId] = useState();
+  const [filter, setFilter] = useState(false);
 
   const fetchCategories = async () => {
     let res = await fetch(`${apiUrl}/api/v1/categories?token=${localStorage.getItem('token')}`);
     let data = await res.json();
     console.log(data);
     setCategories(data);
+  }
+  
+  const fetchUserId = async () => {
+    let res = await fetch(`${apiUrl}/api/v1/users/me?token=${localStorage.getItem('token')}`);
+    let user = await res.json();
+    console.log("The current user is",user.userId);
+    setUserId(user.userId)
   }
 
   const fetchQuestions = async () => {
@@ -31,6 +40,20 @@ function Dashboard() {
       let data = await res.json();
       console.log(data);
       setQuestions(data.reverse());
+      setFilter(false);
+    }
+    
+  }
+
+  const filterUserQuestions = async () => {
+    if(!filter){
+      let res = await fetch(`${apiUrl}/api/v1/categories/${selectedCategory}/questions?token=${token}&userId=${userId}`);
+      let data = await res.json();
+      console.log(data);
+      setQuestions(data.reverse());
+      setFilter(true);
+    } else {
+      fetchQuestions();
     }
     
   }
@@ -53,7 +76,10 @@ function Dashboard() {
     }
 
     if(selectedCategory && inputQuestionText !== ''){
-      let questionBody = { questionText: inputQuestionText }
+      let questionBody = { 
+        questionText: inputQuestionText,
+        userId: userId
+      }
 
       let options = {
         method: 'POST',
@@ -128,6 +154,7 @@ function Dashboard() {
 
   useEffect(() => {
     if(isLoggedIn()){
+      fetchUserId();
       fetchCategories();
     } else{
       window.location.href = '/'
@@ -171,14 +198,16 @@ function Dashboard() {
             <ul>
               {categories.map((category, index) => {
                 return <li key={index} className={category.id == selectedCategory ? 
-                  "rounded border my-2 p-4 cursor-pointer bg-blue-500 text-white font-bold" : "rounded border my-2 p-4 cursor-pointer"} 
+                  "rounded border my-2 p-4 cursor-pointer bg-blue-500 text-white text-center font-bold" : 
+                  "rounded border my-2 p-4 cursor-pointer text-center"} 
                   onClick={() => {
                     setSelectedCategory(category.id);
                     setSelectedQuestion('');
                   }}>
                   {category.name}
-                </li>
+                </li>                
               })}
+              {selectedCategory && <li className={'rounded border my-2 p-4 cursor-pointer bg-gray-500 text-white text-center font-bold'} onClick={filterUserQuestions}>Filter</li>}
             </ul>
           </div>
           
@@ -207,7 +236,7 @@ function Dashboard() {
                     {question.Answers.length > 0 && <span> - Number of Answers: {question.Answers.length}</span>}
                                                         
                     {answers.map((answer, id) => {
-                      return answer.questionId == question.id && <div key={id} className={"rounded border p-4 mt-4 bg-white font-normal"}>
+                      return selectedQuestion == question.id && <div key={id} className={"rounded border p-4 mt-4 bg-white font-normal"}>
                         {answer.answerText}
                       </div>
                     })}
