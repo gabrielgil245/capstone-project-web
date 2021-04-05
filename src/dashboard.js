@@ -75,7 +75,11 @@ function Dashboard() {
   const createNewQuestion = async () => {
     console.log(selectedCategory);
     if(inputQuestionText === ''){
-      console.log("Type in a question first!");
+      notification['error']({
+        message:'Alert',
+        description:
+        `Type in your question first!`,
+      })
     }
 
     if(selectedCategory && inputQuestionText !== ''){
@@ -111,7 +115,11 @@ function Dashboard() {
   const createNewAnswer = async (questionId) => {
     console.log(selectedQuestion);
     if(inputAnswerText == ''){
-      console.log("Type in an answer first!");
+      notification['error']({
+        message:'Alert',
+        description:
+        `Type in your answer first!`,
+      })
     }
 
     if(questionId && inputAnswerText !== ''){
