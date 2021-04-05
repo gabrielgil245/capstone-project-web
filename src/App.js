@@ -8,7 +8,7 @@ import {
 import Dashboard from "./dashboard";
 
 import React, {useEffect, useState} from "react";
-import { Divider, notification } from 'antd';
+import { Button, notification } from 'antd';
 
 // https://boiling-waters-15789.herokuapp.com/
 
@@ -88,42 +88,46 @@ function Auth() {
   return (
     <>
       {/* Navbar */}
-      <div className={"grid grid-cols-12 bg-gray-200"}>
-        <h1 className={"col-span-full text-center text-3xl bg-gray-400 p-4"}>Login Form</h1>
+      <div className={"grid grid-cols-12"}>
+        <h1 className={"col-span-full text-center text-2xl text-white uppercase tracking-wider bg-blue-700 p-4"}>
+          Guide Me Login
+        </h1>
 
         {/* Log In */}
-        <div className={"col-span-full"}>
-          <h1 className={"text-center text-3xl p-2"}>Sign In</h1>
+        <div className={"col-start-2 col-span-10 md:col-start-3 md:col-span-8 shadow-lg p-8"}>
+          <h1 className={"text-center text-2xl p-2"}>Sign In</h1>
           <form className={"grid grid-cols-12"} onSubmit={onSignIn}>
             <input type="email" value={emailLogin} onChange={(event) => setEmailLogin(event.currentTarget.value)} 
-              required className={"border col-start-2 col-span-10 rounded p-2 m-4"} placeholder={"Email address"}/>
+              required className={"border col-span-full lg:col-start-2 lg:col-span-10 rounded p-2 m-4"} placeholder={"Email address"}/>
             <input type="password" value={passwordLogin} onChange={(event) => setPasswordLogin(event.currentTarget.value)} 
-              required className={"border col-start-2 col-span-10 rounded p-2 m-4"} placeholder={"Password"}/>
-            <button htmlType={"submit"} 
-              className={"p-2 m-2 border col-start-5 col-span-4 bg-blue-400 hover:bg-blue-600 text-white rounded font-bold"}>
+              required className={"border col-span-full lg:col-start-2 lg:col-span-10 rounded p-2 m-4"} placeholder={"Password"}/>
+            <Button type={"primary"} htmlType={"submit"} 
+              className={"col-start-5 col-span-4 lg:col-start-6 lg:col-span-2"}>
                 Log In
-            </button>
+            </Button>
 
           </form>
         </div>
 
-        <Divider className={"col-span-full"} />
+        <div className={"col-span-full"}>
+          <br/>
+        </div>
 
         {/* Sign Up */}
-        <div className={"col-span-full"}>
-          <h1 className={"text-center text-3xl p-2"}>Sign Up</h1>
+        <div className={"col-start-2 col-span-10 md:col-start-3 md:col-span-8 shadow-lg p-8"}>
+          <h1 className={"text-center text-2xl p-2"}>Sign Up</h1>
           <form className={"grid grid-cols-12"} onSubmit={onSignUp}>
             <input type="email" value={emailSignUp} onChange={(event) => setEmailSignUp(event.currentTarget.value)} 
-              required className={"border col-start-2 col-span-10 rounded p-2 m-4"} placeholder={"Email address"}/>
+              required className={"border col-span-full lg:col-start-2 lg:col-span-10 rounded p-2 m-4"} placeholder={"Email address"}/>
             <input type="password" value={passwordSignUp} onChange={(event) => setPasswordSignUp(event.currentTarget.value)} 
-              required className={"border col-start-2 col-span-10 rounded p-2 m-4"} placeholder={"Password"}/>
+              required className={"border col-span-full lg:col-start-2 lg:col-span-10 rounded p-2 m-4"} placeholder={"Password"}/>
              <input type="password" value={retypePassword} onChange={(event) => setRetypePassword(event.currentTarget.value)} 
-              required className={"border col-start-2 col-span-10 rounded p-2 m-4"} placeholder={'Retype Password'}/>
+              required className={"border col-span-full lg:col-start-2 lg:col-span-10 rounded p-2 m-4"} placeholder={'Retype Password'}/>
              {(passwordSignUp != retypePassword) && <small className={'text-red-500 font-bold'}>Passwords don't match</small>}
-            <button htmlType={"submit"} 
-              className={"p-2 m-2 border col-start-5 col-span-4 bg-blue-400 hover:bg-blue-600 text-white rounded font-bold"}>
+            <Button type={"primary"} htmlType={"submit"} 
+              className={"col-start-4 col-span-6 md:col-start-5 md:col-span-4 lg:col-start-6 lg:col-span-2"}>
                 Sign Up
-            </button>
+            </Button>
 
           </form>
         </div>

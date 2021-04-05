@@ -5,13 +5,13 @@ function Navbar(props) {
 
   return (
   <>
-    <div className={"grid grid-cols-12 place-items-center border"}>
-      <div className={"col-span-9 p-4"}>
-        <h1 className={'text-center text-3xl'}>
-          Forum App
+    <div className={"grid grid-cols-12 place-items-center border bg-blue-700"}>
+      <div className={"col-span-8 md:col-span-9 lg:col-span-10 xl:col-span-8 mt-2"}>
+        <h1 className={'text-center text-white text-2xl uppercase tracking-wider'}>
+          Guide Me App
           </h1>
       </div>
-      <div className={"col-span-3 text-xl md:text-lg"}>
+      <div className={"col-span-4 md:col-span-3 lg:col-span-2 xl:col-start-11"}>
         <Button type={'danger'} className={"cursor-pointer"} onClick={props.logOut}>Log Out</Button>
       </div>
     </div>
