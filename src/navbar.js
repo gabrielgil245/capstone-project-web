@@ -6,7 +6,7 @@ function Navbar(props) {
   return (
   <>
     <div className={"grid grid-cols-12 place-items-center border bg-blue-700"}>
-      <div className={"col-span-8 md:col-span-9 lg:col-span-10 xl:col-span-8 mt-2"}>
+      <div className={"col-span-8 md:col-span-9 lg:col-span-10 xl:col-span-8 p-2 mt-2"}>
         <h1 className={'text-center text-white text-2xl uppercase tracking-wider'}>
           Guide Me App
           </h1>
